@@ -13,7 +13,7 @@ ROS2 is a powerful open-source framework for building robotics software...
 
 ---
 
-## what is ROS2?
+## What is ROS2?
 
 ROS2 is a open-source framework for robotics applicaiton. it supports scalability with the projects.
 
@@ -23,6 +23,7 @@ ROS2 is a open-source framework for robotics applicaiton. it supports scalabilit
 
 - Cross-platform
 - Real-time support
+- Rich Toolset
 - Modular and flexible
 
 ---
@@ -32,6 +33,8 @@ ROS2 is a open-source framework for robotics applicaiton. it supports scalabilit
 ```bash
 sudo apt update && sudo apt upgrade
 sudo apt install ros-humble-desktop
+```
+
 
 To confirm the installation try source the setup.bash file using the command below. 
 
