@@ -23,7 +23,7 @@ Topics are the communication channels through which nodes exchange data in form 
 
 It is a unidirectional stream for continuous data flow. This is ideal for things like sensor readings, robot state updates or regular interval commands.
 
-***Working:***
+### Working:
 
 A node that wants to share data publishes messages to a specific topic.
 The nodes which are interested in that data subscribe to the same topic to be able to receive those messages.
@@ -63,7 +63,7 @@ Actions are used for long-running tasks which provide feedback during their exec
 
 It is used when the task might task significantly more time to complete and we want to monitor its progress or even stop it in between.
 
-***Working:***
+### Working:
 
 An action client sends the signal(goal) to an action server.
 
@@ -85,7 +85,7 @@ There are different ways to set the parameters:
 
 Parameters can be very useful while using a pid controller to continuously tune the constants without having the build the program everytime.
 
-<h2 style="color:purple;"> 7. Launch Files</h2>
+## 7. Launch Files
 
 Launch files are very useful when we have multiple nodes to run. To avoid running nodes in each terminal, a launch file can accumulates all of tehm in a single file.
 
