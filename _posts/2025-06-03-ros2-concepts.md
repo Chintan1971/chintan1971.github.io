@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Getting Started with ROS2"
+title: "Knowing core ROS2 concepts"
 date: 2025-06-01
 categories: ROS2 beginner
 ---

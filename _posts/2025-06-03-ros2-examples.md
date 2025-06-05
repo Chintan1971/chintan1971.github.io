@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Getting Started with ROS2"
+title: "ROS2 examples"
 date: 2025-06-01
 categories: ros2 beginner
 ---
