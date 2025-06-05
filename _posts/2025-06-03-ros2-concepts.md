@@ -23,7 +23,7 @@ Topics are the communication channels through which nodes exchange data in form 
 
 It is a unidirectional stream for continuous data flow. This is ideal for things like sensor readings, robot state updates or regular interval commands.
 
-### Working:
+### working:
 
 A node that wants to share data publishes messages to a specific topic.
 The nodes which are interested in that data subscribe to the same topic to be able to receive those messages.
@@ -63,7 +63,7 @@ Actions are used for long-running tasks which provide feedback during their exec
 
 It is used when the task might task significantly more time to complete and we want to monitor its progress or even stop it in between.
 
-### Working:
+### working:
 
 An action client sends the signal(goal) to an action server.
 
