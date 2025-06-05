@@ -30,7 +30,7 @@ ROS2 is a open-source framework for robotics applicaiton. it supports scalabilit
 
 ## Installation
 
-We are going to install ROS2 Humble as it has a much stable release compared to latest release in Ubuntu 22.04 Jammy.
+We are going to install ROS2 Humble as it is a much more stable release compared to latest release in Ubuntu 22.04 Jammy.
 
 ## 1. Set locale
 
