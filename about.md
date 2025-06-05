@@ -12,11 +12,9 @@ I'm currently exploring ROS2, computer vision, motion planning - sharing what I 
 
 - 📍 Based in Ontario, Canada  
 - 👨‍🎓 Master's in Robotics & Control  
-- ⚙️ Currently building a 2-DOF robot arm with object tracking  
-- 🧠 Learning goals: motion planning, inverse kinematics, and clean Python-based ROS 2 systems  
-- ✨ I believe in hands-on learning and writing clean, well-documented code that helps others get started too.
+- 🧠 Learning goals: motion planning, path planning and clean Python-based ROS 2 systems  
 
 ### Contact me
 
-[chintan1971@yahoo.com](mailto:chintan1971@yahoo.com)
+[chintan1971@yahoo.com](mailto:chintan1971@yahoo.com)  
 [GitHub Profile](https://github.com/Chintan1971)
