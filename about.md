@@ -12,7 +12,7 @@ I'm currently exploring ROS2, computer vision, motion planning - sharing what I 
 
 - 📍 Based in Ontario, Canada  
 - 👨‍🎓 Master's in Robotics & Control  
-- 🧠 Learning goals: motion planning, path planning and clean Python-based ROS 2 systems  
+- 🧠 Learning goals: motion planning, path planning and Python-based ROS 2 systems  
 
 ### Contact me
 
