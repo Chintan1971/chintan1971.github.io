@@ -17,6 +17,11 @@ Although nodes run independently, they can communicate with each other to achiev
 
 Nodes can be written in Python or C++.
 
+Example:
+ - camera_node: read data from camera.
+ - driver_node: sends commands to motors.
+
+
 ## 2. Topics
 
 Topics are the communication channels through which nodes exchange data in form of messages.
@@ -29,6 +34,19 @@ A node that wants to share data publishes messages to a specific topic.
 The nodes which are interested in that data subscribe to the same topic to be able to receive those messages.
 
 A same topic can have multiple subscribers and publishers.
+
+Example:
+ - A camera_node publishes data over the topic /camera/images and the the image processing node subscribes to the same node.
+
+ Publisher node:
+ ```bash
+ self.publisher_ = self.create_publisher(String, 'chatter', 10)
+```
+ Subscriber node:
+ ```bash
+ self.subscription = self.create_subscription(String, 'chatter', self.listener_callback, 10)
+
+ ```
 
 ## 3. Messages
 
