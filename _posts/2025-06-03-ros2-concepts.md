@@ -9,17 +9,37 @@ Before getting directly into ROS2 understanding the fundamental concepts are ver
 
 ## 1. Nodes
 
-A Node in ROS2 is the most fundamental unit of computation. Imagine it to be a specialized worker(program) within your robot's software system.
+A Node in ROS2 is a fundamental unit of computation. Imagine it to be a specialized worker(C++ program, Python program) within your robot's software system.
 
 Each node can be used for a single, specific task. For instance, one node might be responsible to move the wheels of a robot while the other node will do the sensor data processing.
 
-Although nodes run independently, they can communicate with each other to achieve a bigger goal.
-
-Nodes can be written in Python or C++.
+Although nodes run independently, they can communicate with each other via topics, services, actions, or parameters.
 
 Example:
  - camera_node: read data from camera.
  - driver_node: sends commands to motors.
+
+#### Below is a simple node(in Python)
+
+ ```bash
+ import rclpy
+ from rclpy.node import Node
+
+class MyNode(Node):
+    def __init__(self):
+        super().__init__('my_first_node') ## name your node
+        self.get_logger().info('Hello from my node') ## display a message
+
+def main(args=None):
+    rclpy.init() ## initialize the ros2 python client  
+    node = MyNode() ## create an instance of your node
+    rclpy.spin() ## keeps your noded running 
+    my_node.destroy_node() ## shutsdown and destroys the node cleanly once done
+    rclpy.shutdown() ## shuts down the ros2 client 
+
+if __name__ == "__main__ :
+    main()    
+ ```
 
 
 ## 2. Topics
@@ -36,44 +56,62 @@ The nodes which are interested in that data subscribe to the same topic to be ab
 A same topic can have multiple subscribers and publishers.
 
 Example:
- - A camera_node publishes data over the topic /camera/images and the the image processing node subscribes to the same node.
+ - A camera_node publishes data over the topic /camera/image_raw and the image processing node subscribes to the same topic.
 
  Publisher node:
  ```bash
- self.publisher_ = self.create_publisher(String, 'chatter', 10)
+ self.publisher_ = self.create_publisher(Image, '/camera/image_raw', 10)
 ```
  Subscriber node:
  ```bash
- self.subscription = self.create_subscription(String, 'chatter', self.listener_callback, 10)
-
+ self.subscription = self.create_subscription(Image, '/camera/image_raw', self.listener_callback, 10)
  ```
+
+Note: Here, *Image* refers to the ROS2 messages type which can be known using the command ***ros2 topic list*** and to check the message type for a topic use:
+***ros2 topic info /camera/image_raw***
+
 
 ## 3. Messages
 
-Messages are the data structures that nodes sends/receives over a topic.
+Messages are the data structures that nodes sends/receives over a topic. Essentially, the structure of: how you should send your message. 
 
-Messages are defined in .msg files. The structure and data types of a message is defined in the same file. For instance a sample .msg file looks like
+Messages are defined in .msg files. The structure and data types of a message is defined in the same file. For instance a sample .msg file looks like -
 
-```
-    int32 x
-    int32 y
-    string message
+```bash
+int32 x
+int32 y
+string message
 ```
 
 You can also define a custom .msg file if the standard message type doesn't fit your needs.
 
+To know the full list of supported data-types, check the link:
+[Supported data-types](https://docs.ros.org/en/humble/Concepts/Basic/About-Interfaces.html#messages)
+
 ## 4. Services
 
-Services works like a request/reply communication pattern.
+Services is an synchronous communication: meaning the client sends a request and then waits for the response/confirmation., it is used in the cases where you want to perform a task only once with a guaranteed reply before going to the next step.
 
-They are used for synchronous, two way communication(client->server) where on node needs to request a specific action or piece of information from another node and then waits for response. It can be used where the node has to wait for response before proceeding.
+For example: If you want to turn on a camera, you want to make sure that it has turned on before not just hoping that it did, you might want the system to say " camera is turned on."
 
-The server node advertises a service by a name and defines what it does when received a request.
+Other examples might also include calibrating a motor, saving your configuration.
 
-The client node requests message to the server and waits until it is receives the response.
+A service consists of: ***Service Server*** and a ***Service Client***
 
-Service files are dedfined with `.srv` extension.
+The server node advertises a service by a name, waits for requests and sends back response.
 
+The client node requests message to the server and waits until it is receives the response before continuing.
+
+Service files are defined with `.srv` extension, it consists of both request and response format separated by **---**. 
+
+For Example:
+```bash
+## adding two numbers
+int32 a
+int32 b
+---
+int32 sum
+```
 
 ## 5. Actions
 
