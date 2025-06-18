@@ -48,7 +48,7 @@ Topics are the communication channels through which nodes exchange data in form 
 
 It is a unidirectional stream for continuous data flow. This is ideal for things like sensor readings, robot state updates or regular interval commands.
 
-### working:
+### Working:
 
 A node that wants to share data publishes messages to a specific topic.
 The nodes which are interested in that data subscribe to the same topic to be able to receive those messages.
@@ -102,7 +102,7 @@ The server node advertises a service by a name, waits for requests and sends bac
 
 The client node requests message to the server and waits until it is receives the response before continuing.
 
-Service files are defined with `.srv` extension, it consists of both request and response format separated by **---**. 
+Service files are defined with `.srv` extension, it consists of both request and response format separated by **---**. The .srv files are used by the server and client nodes.
 
 For Example:
 ```bash
@@ -117,21 +117,35 @@ int32 sum
 
 Actions are used for long-running tasks which provide feedback during their execution and can be preempted.
 
-It is used when the task might task significantly more time to complete and we want to monitor its progress or even stop it in between.
+Actions give progress feedback, cancellation, and final result while running.
 
-### working:
+For instance, when preforming a task which might take significantly more time to complete and we want to monitor its progress or even stop it in between actions can be used.
 
-An action client sends the signal(goal) to an action server.
+Use case: To move a robot to a specific coordinate in the plane and get updates.
 
-The action server starts executing the node and can also provide feedback about the process.
+Action consists of two parts: ***action server*** and ***action client***.
 
-Once the action is completed the server send a final result to the client.
+Similar to service server, action server will accept the request and performs the task. It is also responsible for giving the feedback during the progress and under the case of cancellation of request. 
+
+the .action file defines the structure of the messages used for an action. It consists of three parts: Goal->Result->Feedback.
+
+```bash
+## moving a robot
+
+float32 target_position ##goal 
+---
+bool success ##result
+--
+float32 progress_percent ##feedback
+```
+
+This .action file goes into the action folder in the workspace. And we use them in our action server and client nodes.
 
 ## 6. Parameters
 
-Parameters are the configuration values for any node. We can fetch the values or even change it while the node is running.
+Parameters are the configuration values for anys node. We can fetch the values or even change it while the node is running without changing the code.
 
-Suppose if you have your robot already spawned and running and you changed your mind about its speed, then you can do it directly from terminal using parameters.
+Suppose if you have your robot already spawned and running and you changed your mind about the speed, then you can change it directly from terminal using parameters.
 
 There are different ways to set the parameters:
 - From the node's code.
@@ -139,7 +153,59 @@ There are different ways to set the parameters:
 - using terminal command 'ros2 param set ... '
 - set values using other node.
 
-Parameters can be very useful while using a pid controller to continuously tune the constants without having the build the program everytime.
+Parameters can be useful while using a pid controller to continuously tune the constants without having the build the program everytime.
+
+Parameters becomes more useful once the project gets bigger and more dynamic. The parameters value can be read by the nodes at runtime without needing to rebuild the code.
+
+Examples:
+```bash
+#robot_mover.py
+
+import rclpy
+import rclpy.node
+
+class MoveRobot(rclpy.node.Node):
+    def __init__(self):
+        super().__init__('robot_mover')
+        self.declare_parameter('speed',0.5) #default speed
+        self.speed = self.get_parameter('speed').get_parameter_value().double_value
+        self.get_logger().info('Robot speed set to {}'.format(self.speed))
+
+def main(args=None):
+    rclpy.init()
+    node = MoveRobot()
+    rclpy.spin(node)
+    node.destroy_node()
+    rclpy.shutdown()
+```
+Launch with custom speed
+```bash
+ros2 run package_name robot_mover --ros-args -p speed:=1.0
+```
+Launch using YAML file + launch file
+```bash
+## params.yaml file
+
+robot_mover:
+  ros__parameters:
+    speed: 1.0
+
+##launch file
+
+Node(
+    package='package_name',
+    executable='robot_mover',
+    name='robot_mover',
+    parameters=['params.yaml']
+)
+```
+
+```bash
+ros2 param set /robot_mover speed 1.0
+```
+Using .yaml can be helpful when we have multiple parameters to tweak: we can simply edit the .yaml file and restart/relaunch the node without needing to rebuilding it or changing code.
+
+This practice also keeps the code clean. Parameter values are separated the logic.
 
 ## 7. Launch Files
 

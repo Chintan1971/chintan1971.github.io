@@ -38,10 +38,10 @@ You can refer to the the ROS2 Official documentation for more details about the 
 ## 1. Set locale
 
 Check if your system supports UTF-8
- ```bash
- locale
- ```
- If 'LANG' is not set or if values do not end with 'UTF-8', you might need to set it.
+```bash
+locale
+```
+If 'LANG' is not set or if values do not end with 'UTF-8', you might need to set it.
 
 ```bash
 sudo apt update && sudo apt install locales
